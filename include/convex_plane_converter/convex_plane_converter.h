@@ -2,11 +2,13 @@
 
 #include <eigen3/Eigen/Core>
 #include <convex_plane_msgs/msg/convex_plane.hpp>
+#include <convex_plane_converter/convex_plane_msgs_hlper.h>
 #include <grid_map_msgs/msg/grid_map.hpp>
 
 namespace convex_plane
 {
-
+using Matrix = Eigen::MatrixXd;
+using Vector = Eigen::VectorXd;
 class ConvexPlaneConverter
 {
 public:
@@ -15,22 +17,22 @@ public:
 
     static bool fromMessage(
         const convex_plane_msgs::msg::ConvexPlane& message, 
-        Eigen::MatrixXd& A, Eigen::VectorXd& b, 
-        Eigen::MatrixXd& C, Eigen::VectorXd& d,
-        Eigen::VectorXd& normal
+        Matrix& A, Vector& b, 
+        Matrix& C, Vector& d,
+        Vector& normal
     );
 
-    static bool fromMessage(
-        const convex_plane_msgs::msg::ConvexPlane& message, 
-        Eigen::MatrixXd& A, Eigen::VectorXd& b, 
-        Eigen::VectorXd& normal
-    );
+    // static bool fromMessage(
+    //     const convex_plane_msgs::msg::ConvexPlane& message, 
+    //     Matrix& A, Vector& b, 
+    //     Vector& normal
+    // );
 
     static bool toMessge(
-        const Eigen::MatrixXd& A, const Eigen::VectorXd& b, 
-        const Eigen::MatrixXd& C, const Eigen::VectorXd& c,
-        const Eigen::MatrixXd& normal, 
-        const convex_plane_msgs::msg::ConvexPlane& message
+        const Matrix& A, const Vector& b, 
+        const Matrix& C, const Vector& d,
+        const Vector& normal, 
+        convex_plane_msgs::msg::ConvexPlane& message
     );
 };
 }

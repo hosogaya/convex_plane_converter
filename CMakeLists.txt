@@ -43,10 +43,32 @@ set(dependencies
   convex_plane_msgs
 )
 
+add_library(${PROJECT_NAME}
+  src/convex_plane_converter.cpp
+)
+ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_include_directories(${PROJECT_NAME}
+PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${EIGEN3_INCLUDE_DIR}
+)
+install(
+  TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
 
 function(add_cpc_test base_name)
 	add_executable(${base_name} test/${base_name}.cpp)
 	ament_target_dependencies(${base_name} ${dependencies})
+  target_link_libraries(${base_name} ${PROJECT_NAME})
   target_include_directories(${base_name}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -60,5 +82,6 @@ function(add_cpc_test base_name)
 endfunction()
 
 add_cpc_test(test_message_helper)
+add_cpc_test(test_to_message)
 
 ament_package()

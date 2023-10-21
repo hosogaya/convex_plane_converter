@@ -2,6 +2,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <Eigen/Core>
+#include <Eigen/Dense>
 #include <std_msgs/msg/float32_multi_array.hpp>
 
 namespace convex_plane
