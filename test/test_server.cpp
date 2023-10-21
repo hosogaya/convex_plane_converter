@@ -9,6 +9,8 @@ void get(
     convex_plane_msgs::srv::GetConvexPlane::Response::SharedPtr response
 )
 {
+    RCLCPP_INFO(rclcpp::get_logger("server"), "0x%x", &(request->map));
+    RCLCPP_INFO(rclcpp::get_logger("server"), "0x%x", &(request->label));
     // grid_map::GridMap map;
     // grid_map::GridMapRosConverter::fromMessage(request->map, map);
     
@@ -32,10 +34,10 @@ int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
 
-    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("get_convex_plane_server");  // CHANGE
+    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("get_convex_plane_server", rclcpp::NodeOptions().use_intra_process_comms(true));  // CHANGE
 
     rclcpp::Service<convex_plane_msgs::srv::GetConvexPlane>::SharedPtr service =                 // CHANGE
-        node->create_service<convex_plane_msgs::srv::GetConvexPlane>("get_convex_plane",  &get);     // CHANGE
+        node->create_service<convex_plane_msgs::srv::GetConvexPlane>("get_convex_plane", &get);     // CHANGE
 
     RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ready to get convex plane.");      // CHANGE
 

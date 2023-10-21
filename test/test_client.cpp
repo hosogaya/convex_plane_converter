@@ -31,11 +31,13 @@ int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
 
-    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("get_convex_plane_client"); 
+    std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("get_convex_plane_client", rclcpp::NodeOptions().use_intra_process_comms(true)); 
     rclcpp::Client<convex_plane_msgs::srv::GetConvexPlane>::SharedPtr client =                        
         node->create_client<convex_plane_msgs::srv::GetConvexPlane>("get_convex_plane");
     
     auto request = std::make_shared<convex_plane_msgs::srv::GetConvexPlane_Request>();
+    RCLCPP_INFO(rclcpp::get_logger("client"), "0x%x", &(request->map));
+    RCLCPP_INFO(rclcpp::get_logger("client"), "0x%x", &(request->label));
 
     while (!client->wait_for_service(1s)) {
         if (!rclcpp::ok()) {
