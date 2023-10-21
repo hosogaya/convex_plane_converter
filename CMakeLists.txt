@@ -22,6 +22,7 @@ find_package(std_msgs REQUIRED)
 find_package(convex_plane_msgs REQUIRED)
 find_package(grid_map_core REQUIRED)
 find_package(grid_map_ros REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 if(BUILD_TESTING)
@@ -67,7 +68,7 @@ install(
 
 function(add_cpc_test base_name)
 	add_executable(${base_name} test/${base_name}.cpp)
-	ament_target_dependencies(${base_name} ${dependencies})
+	ament_target_dependencies(${base_name} ${dependencies} rclcpp)
   target_link_libraries(${base_name} ${PROJECT_NAME})
   target_include_directories(${base_name}
   PUBLIC
@@ -83,5 +84,7 @@ endfunction()
 
 add_cpc_test(test_message_helper)
 add_cpc_test(test_to_message)
+add_cpc_test(test_server)
+add_cpc_test(test_client)
 
 ament_package()

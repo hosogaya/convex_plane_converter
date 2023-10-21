@@ -14,6 +14,7 @@
   <depend>convex_plane_msgs</depend>
   <depend>grid_map_core</depend>
   <depend>grid_map_ros</depend>
+  <depend>rclcpp</depend>
   <depend>Eigen3</depend>
 
   <test_depend>ament_lint_auto</test_depend>
