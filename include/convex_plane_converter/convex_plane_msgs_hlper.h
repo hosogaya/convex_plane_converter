@@ -74,4 +74,31 @@ bool eigen2MultiArrayMessage(
     m.data.insert(m.data.begin()+m.layout.data_offset, e.data(), e.data()+e.size());
     return true;
 }
+
+template<typename EigenType_>
+std_msgs::msg::Float32MultiArray eigen2MultiArrayMessage(
+    const EigenType_& e
+)
+{
+    std_msgs::msg::Float32MultiArray m;
+    m.layout.dim.resize(2);
+    m.layout.dim[0].stride = e.size();
+    m.layout.dim[0].size = e.outerSize();
+    m.layout.dim[1].stride = e.innerSize();
+    m.layout.dim[1].size = e.innerSize();
+
+    if (e.IsRowMajor)
+    {
+        m.layout.dim[0].label = row_major;
+        m.layout.dim[1].label = col_major;
+    }
+    else
+    {
+        m.layout.dim[0].label = col_major;
+        m.layout.dim[1].label = row_major;
+    }
+
+    m.data.insert(m.data.begin()+m.layout.data_offset, e.data(), e.data()+e.size());
+    return m;
+}
 }

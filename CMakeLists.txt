@@ -24,6 +24,9 @@ find_package(grid_map_core REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(iris REQUIRED)
+find_package(ifopt REQUIRED)
+find_package(autodiff REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -42,23 +45,35 @@ set(dependencies
   grid_map_msgs
   std_msgs
   convex_plane_msgs
+  iris
+  ifopt
 )
 
-add_library(${PROJECT_NAME}
+add_library(${PROJECT_NAME} SHARED
   src/convex_plane_converter.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+target_link_libraries(${PROJECT_NAME} iris autodiff::autodiff)
 target_include_directories(${PROJECT_NAME}
 PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${EIGEN3_INCLUDE_DIR}
 )
+
+ament_export_include_directories(include)
+ament_export_dependencies(${dependencies})
+ament_export_libraries(
+  ${PROJECT_NAME}
+)
+
 install(
   TARGETS ${PROJECT_NAME}
+  EXPORT ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
 )
 install(
   DIRECTORY include/
@@ -69,7 +84,7 @@ install(
 function(add_cpc_test base_name)
 	add_executable(${base_name} test/${base_name}.cpp)
 	ament_target_dependencies(${base_name} ${dependencies} rclcpp)
-  target_link_libraries(${base_name} ${PROJECT_NAME})
+  target_link_libraries(${base_name} ${PROJECT_NAME} iris autodiff::autodiff)
   target_include_directories(${base_name}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

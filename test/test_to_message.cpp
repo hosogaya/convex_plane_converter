@@ -14,16 +14,16 @@ void printMultiArray(const MultiArraytype_& m, const std::string& name)
 {
     std::cout << name << ": " << std::endl;
     std::cout << "dim size: " << m.layout.dim.size() << std::endl;
-    for (int i=0; i<m.layout.dim.size(); ++i)
+    for (size_t i=0; i<m.layout.dim.size(); ++i)
     {
         std::cout << "message dim stride" << i << ": " << m.layout.dim[i].stride << std::endl;
         std::cout << "message dim size" << i << ": " << m.layout.dim[i].size << std::endl;
         std::cout << "message dim label" << i << ": " << m.layout.dim[i].label << std::endl;
     }
     std::cout << "message data: " << std::endl;
-    for (int i=0; i<m.layout.dim[0].size; ++i)
+    for (size_t i=0; i<m.layout.dim[0].size; ++i)
     {
-        for (int j=0; j<m.layout.dim[1].size; ++j)
+        for (size_t j=0; j<m.layout.dim[1].size; ++j)
         {
             std::cout << m.data.at(i*m.layout.dim[1].size + j) << " ";
         }
