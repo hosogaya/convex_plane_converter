@@ -47,6 +47,13 @@ public:
     );
 
     static bool addPlaneToMessage(
+        const Matrix& A, const Vector& b, 
+        const Matrix& C, const Vector& d,
+        const Vector& normal, const int label,
+        convex_plane_msgs::msg::ConvexPlanes& planes
+    );
+
+    static bool addPlaneToMessage(
         const iris::IRISRegion& region, const Vector& normal, 
         const int label,
         convex_plane_msgs::msg::ConvexPlanes& planes

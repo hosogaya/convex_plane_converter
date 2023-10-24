@@ -101,5 +101,6 @@ add_cpc_test(test_message_helper)
 add_cpc_test(test_to_message)
 add_cpc_test(test_server)
 add_cpc_test(test_client)
+add_cpc_test(test_add_message)
 
 ament_package()

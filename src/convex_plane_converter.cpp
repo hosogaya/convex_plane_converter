@@ -65,6 +65,22 @@ bool ConvexPlaneConverter::toMessge(
     return true;
 }
 
+bool ConvexPlaneConverter::addPlaneToMessage(
+    const Matrix& A, const Vector& b, 
+    const Matrix& C, const Vector& d,
+    const Vector& normal, const int label,
+    convex_plane_msgs::msg::ConvexPlanes& planes
+)
+{
+    planes.a_matrix.push_back(eigen2MultiArrayMessage(A));
+    planes.b_vector.push_back(eigen2MultiArrayMessage(b));
+    planes.c_matrix.push_back(eigen2MultiArrayMessage(C));
+    planes.d_vector.push_back(eigen2MultiArrayMessage(d));
+    planes.normal.push_back(eigen2MultiArrayMessage(normal));
+    planes.label.push_back(label);
+
+    return true;
+}
 
 bool ConvexPlaneConverter::addPlaneToMessage(
     const iris::IRISRegion& region, const Vector& normal, 
@@ -72,25 +88,7 @@ bool ConvexPlaneConverter::addPlaneToMessage(
     convex_plane_msgs::msg::ConvexPlanes& planes
 )
 {
-    std_msgs::msg::Float32MultiArray A, b, C, d, n;
-    if (!eigen2MultiArrayMessage(region.polyhedron.getA(), A)) return false;
-    if (!eigen2MultiArrayMessage(region.polyhedron.getB(), b)) return false;
-    if (!eigen2MultiArrayMessage(region.ellipsoid.getC(), C)) return false;
-    if (!eigen2MultiArrayMessage(region.ellipsoid.getD(), d)) return false;
-    if (!eigen2MultiArrayMessage(normal, n)) return false;
-    planes.a_matrix.push_back(A);
-    planes.b_vector.push_back(b);
-    planes.c_matrix.push_back(C);
-    planes.d_vector.push_back(d);
-    planes.normal.push_back(n);
-    // planes.label.push_back(label);
-
-    // if (planes.a_matrix.size() != planes.label.size()) return false;
-    // if (planes.b_vector.size() != planes.label.size()) return false;
-    // if (planes.c_matrix.size() != planes.label.size()) return false;
-    // if (planes.d_vector.size() != planes.label.size()) return false;
-    // if (planes.normal.size() != planes.label.size()) return false;
-
+    addPlaneToMessage(region.polyhedron.getA(), region.polyhedron.getB(), region.ellipsoid.getC(), region.ellipsoid.getD(), normal, label, planes);
     return true;
 }
 
