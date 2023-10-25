@@ -23,7 +23,7 @@ bool ConvexPlaneConverter::fromMessage(
 
 bool ConvexPlaneConverter::fromMessage(
     const convex_plane_msgs::msg::ConvexPlanesWithGridMap& message, 
-    grid_map::GridMap& map, std::vector<iris::IRISRegion>& regions, 
+    grid_map::GridMap& map, std::vector<iris_2d::Region>& regions, 
     std::vector<Vector>& normals, std::vector<int>& labels
 )
 {
@@ -38,11 +38,11 @@ bool ConvexPlaneConverter::fromMessage(
     labels = planes.label;
     for (size_t i=0; i<planes.label.size(); ++i)
     {
-        regions.emplace_back(2);
-        mulitArrayMessage2Eigen(planes.a_matrix[i], regions[i].polyhedron.getAref());
-        mulitArrayMessage2Eigen(planes.b_vector[i], regions[i].polyhedron.getBref());
-        mulitArrayMessage2Eigen(planes.c_matrix[i], regions[i].ellipsoid.getCref());
-        mulitArrayMessage2Eigen(planes.d_vector[i], regions[i].ellipsoid.getDref());
+        regions.emplace_back();
+        mulitArrayMessage2Eigen(planes.a_matrix[i], regions[i].getARef());
+        mulitArrayMessage2Eigen(planes.b_vector[i], regions[i].getBRef());
+        mulitArrayMessage2Eigen(planes.c_matrix[i], regions[i].getCRef());
+        mulitArrayMessage2Eigen(planes.d_vector[i], regions[i].getDRef());
         mulitArrayMessage2Eigen(planes.normal[i], normals[i]);
     }
 
@@ -83,17 +83,17 @@ bool ConvexPlaneConverter::addPlaneToMessage(
 }
 
 bool ConvexPlaneConverter::addPlaneToMessage(
-    const iris::IRISRegion& region, const Vector& normal, 
+    const iris_2d::Region& region, const Vector& normal, 
     const int label,
     convex_plane_msgs::msg::ConvexPlanes& planes
 )
 {
-    addPlaneToMessage(region.polyhedron.getA(), region.polyhedron.getB(), region.ellipsoid.getC(), region.ellipsoid.getD(), normal, label, planes);
+    addPlaneToMessage(region.getA(), region.getB(), region.getC(), region.getD(), normal, label, planes);
     return true;
 }
 
 convex_plane_msgs::msg::ConvexPlanesWithGridMap::UniquePtr ConvexPlaneConverter::toMessage(
-    const std::vector<iris::IRISRegion>& regions, 
+    const std::vector<iris_2d::Region>& regions, 
     const std::vector<Vector>& normals, const std::vector<float>& labels, 
     const grid_map::GridMap& map
 )
@@ -102,7 +102,7 @@ convex_plane_msgs::msg::ConvexPlanesWithGridMap::UniquePtr ConvexPlaneConverter:
 }
 
 convex_plane_msgs::msg::ConvexPlanesWithGridMap::UniquePtr ConvexPlaneConverter::toMessage(
-    const std::vector<iris::IRISRegion>& regions, 
+    const std::vector<iris_2d::Region>& regions, 
     const std::vector<Vector>& normals, const std::vector<float>& labels, 
     const grid_map::GridMap& map, const std::vector<std::string>& layers
 )
@@ -125,10 +125,10 @@ convex_plane_msgs::msg::ConvexPlanesWithGridMap::UniquePtr ConvexPlaneConverter:
     planes.label.resize(labels.size());
     for (size_t i=0; i<labels.size(); ++i)
     {
-        eigen2MultiArrayMessage(regions[i].polyhedron.getA(), planes.a_matrix[i]);
-        eigen2MultiArrayMessage(regions[i].polyhedron.getB(), planes.b_vector[i]);
-        eigen2MultiArrayMessage(regions[i].ellipsoid.getC(), planes.c_matrix[i]);
-        eigen2MultiArrayMessage(regions[i].ellipsoid.getD(), planes.d_vector[i]);
+        eigen2MultiArrayMessage(regions[i].getA(), planes.a_matrix[i]);
+        eigen2MultiArrayMessage(regions[i].getB(), planes.b_vector[i]);
+        eigen2MultiArrayMessage(regions[i].getC(), planes.c_matrix[i]);
+        eigen2MultiArrayMessage(regions[i].getD(), planes.d_vector[i]);
         eigen2MultiArrayMessage(normals[i], planes.normal[i]);
         planes.label[i] = labels[i];
     }

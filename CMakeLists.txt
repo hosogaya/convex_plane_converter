@@ -24,7 +24,7 @@ find_package(grid_map_core REQUIRED)
 find_package(grid_map_ros REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(iris REQUIRED)
+find_package(iris_2d REQUIRED)
 find_package(ifopt REQUIRED)
 find_package(autodiff REQUIRED)
 
@@ -45,7 +45,7 @@ set(dependencies
   grid_map_msgs
   std_msgs
   convex_plane_msgs
-  iris
+  iris_2d
   ifopt
 )
 
@@ -53,7 +53,7 @@ add_library(${PROJECT_NAME} SHARED
   src/convex_plane_converter.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
-target_link_libraries(${PROJECT_NAME} iris autodiff::autodiff)
+target_link_libraries(${PROJECT_NAME} iris_2d autodiff::autodiff)
 target_include_directories(${PROJECT_NAME}
 PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -84,7 +84,7 @@ install(
 function(add_cpc_test base_name)
 	add_executable(${base_name} test/${base_name}.cpp)
 	ament_target_dependencies(${base_name} ${dependencies} rclcpp)
-  target_link_libraries(${base_name} ${PROJECT_NAME} iris autodiff::autodiff)
+  target_link_libraries(${base_name} ${PROJECT_NAME} iris_2d autodiff::autodiff)
   target_include_directories(${base_name}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

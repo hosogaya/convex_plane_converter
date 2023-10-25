@@ -56,13 +56,12 @@ int main()
     for (size_t i=0; i<labels.size(); ++i)
     {
     // convex_plane_msgs::msg::ConvexPlanes message;
-    iris::IRISProblem problem(2);
     convex_plane_msgs::msg::ConvexPlanesWithGridMap message;
-    iris::IRISRegion region(2);
-    region.ellipsoid.setC(C);
-    region.ellipsoid.setD(d);
-    region.polyhedron.setA(A);
-    region.polyhedron.setB(b);
+    iris_2d::Region region;
+    region.getEllipsoidRef().setC(C);
+    region.getEllipsoidRef().setD(d);
+    region.getPolyhedronRef().setA(A);
+    region.getPolyhedronRef().setB(b);
     // convex_plane::ConvexPlaneConverter::addPlaneToMessage(A, b, C, d, normal, 1, message);
     convex_plane::ConvexPlaneConverter::addPlaneToMessage(region, normal, labels[i], message.plane);
     // printMultiArray(message.a_matrix[0], "A matrix");
