@@ -123,7 +123,7 @@ convex_plane_msgs::msg::ConvexPlanesWithGridMap::UniquePtr ConvexPlaneConverter:
     planes.d_vector.resize(labels.size());
     planes.normal.resize(labels.size());
     planes.label.resize(labels.size());
-    for (int i=0; i<labels.size(); ++i)
+    for (size_t i=0; i<labels.size(); ++i)
     {
         eigen2MultiArrayMessage(regions[i].polyhedron.getA(), planes.a_matrix[i]);
         eigen2MultiArrayMessage(regions[i].polyhedron.getB(), planes.b_vector[i]);

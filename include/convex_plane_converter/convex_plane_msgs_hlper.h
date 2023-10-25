@@ -43,7 +43,7 @@ bool mulitArrayMessage2Eigen(
     }
 
     e.resize(getRows(m), getCols(m));
-    for (int i=0; i<m.data.size(); ++i)
+    for (size_t i=0; i<m.data.size(); ++i)
         e.data()[i] = m.data[i];
     return true;
 }
