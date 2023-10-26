@@ -17,9 +17,9 @@ void printMultiArray(const MultiArraytype_& m, const std::string& name)
         std::cout << "message dim label" << i << ": " << m.layout.dim[i].label << std::endl;
     }
     std::cout << "message data: " << std::endl;
-    for (int i=0; i<m.layout.dim[0].size; ++i)
+    for (size_t i=0; i<m.layout.dim[0].size; ++i)
     {
-        for (int j=0; j<m.layout.dim[1].size; ++j)
+        for (size_t j=0; j<m.layout.dim[1].size; ++j)
         {
             std::cout << m.data.at(i*m.layout.dim[1].size + j) << " ";
         }

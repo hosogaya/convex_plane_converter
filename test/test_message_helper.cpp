@@ -25,9 +25,9 @@ int main()
     std::cout << "message dim label0: " << message.layout.dim[0].label << std::endl;
     std::cout << "message dim label1: " << message.layout.dim[1].label << std::endl;
     std::cout << "message data: " << std::endl;
-    for (int i=0; i<message.layout.dim[0].size; ++i)
+    for (size_t i=0; i<message.layout.dim[0].size; ++i)
     {
-        for (int j=0; j<message.layout.dim[1].size; ++j)
+        for (size_t j=0; j<message.layout.dim[1].size; ++j)
         {
             std::cout << message.data.at(i*message.layout.dim[1].size + j) << " ";
         }
